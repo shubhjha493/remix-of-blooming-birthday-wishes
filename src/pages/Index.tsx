@@ -4,8 +4,9 @@ import BirthdayMessage from '@/components/birthday/BirthdayMessage';
 import ChocolateCake from '@/components/birthday/ChocolateCake';
 import Celebration from '@/components/birthday/Celebration';
 import ThankYouSection from '@/components/birthday/ThankYouSection';
+import EnvelopeCard from '@/components/birthday/EnvelopeCard';
 
-type Phase = 'flowers' | 'message' | 'cake' | 'celebration' | 'thankyou';
+type Phase = 'flowers' | 'message' | 'cake' | 'celebration' | 'thankyou' | 'envelope';
 
 const Index = () => {
   const [phase, setPhase] = useState<Phase>('flowers');
@@ -30,6 +31,10 @@ const Index = () => {
 
   const handleCelebrationComplete = useCallback(() => {
     setPhase('thankyou');
+  }, []);
+
+  const handleThankYouSkip = useCallback(() => {
+    setPhase('envelope');
   }, []);
 
   return (
@@ -72,7 +77,16 @@ const Index = () => {
 
       {/* Thank You Phase */}
       {phase === 'thankyou' && (
-        <ThankYouSection />
+        <div className="absolute inset-0 animate-fade-in-up">
+          <ThankYouSection onSkip={handleThankYouSkip} />
+        </div>
+      )}
+
+      {/* Envelope Phase */}
+      {phase === 'envelope' && (
+        <div className="absolute inset-0 animate-fade-in-up">
+          <EnvelopeCard />
+        </div>
       )}
     </div>
   );

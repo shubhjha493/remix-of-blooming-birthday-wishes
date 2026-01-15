@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 
-const ThankYouSection = () => {
+interface ThankYouSectionProps {
+  onSkip?: () => void;
+}
+
+const ThankYouSection = ({ onSkip }: ThankYouSectionProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -94,6 +98,22 @@ const ThankYouSection = () => {
       >
         – Shubh
       </p>
+
+      {/* Skip Button */}
+      {onSkip && (
+        <button
+          onClick={onSkip}
+          className={`absolute bottom-6 right-6 font-handwritten text-base px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 hover:bg-secondary/50 ${
+            isVisible ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{ 
+            color: 'hsl(var(--primary))',
+            border: '1px solid hsl(340 30% 30%)',
+          }}
+        >
+          Skip →
+        </button>
+      )}
     </div>
   );
 };
