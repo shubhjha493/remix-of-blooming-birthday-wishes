@@ -59,14 +59,7 @@ const Index = () => {
       {/* Cake Phase - Full black screen with fade in */}
       {phase === 'cake' && (
         <div 
-          className={`absolute inset-0 bg-background flex items-center justify-center transition-opacity duration-1000 ${
-            flowersFading ? 'opacity-0' : 'opacity-100'
-          }`}
-          style={{ 
-            animation: 'fade-in 1s ease-out forwards',
-            animationDelay: '0.5s',
-            opacity: 0 
-          }}
+          className="absolute inset-0 bg-background flex items-center justify-center animate-fade-in-up"
         >
           <ChocolateCake onCut={handleCakeCut} />
         </div>
