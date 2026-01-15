@@ -9,13 +9,19 @@ type Phase = 'flowers' | 'message' | 'cake' | 'celebration' | 'thankyou';
 
 const Index = () => {
   const [phase, setPhase] = useState<Phase>('flowers');
+  const [flowersFading, setFlowersFading] = useState(false);
 
   const handleFlowersComplete = useCallback(() => {
     setPhase('message');
   }, []);
 
   const handleMessageComplete = useCallback(() => {
-    setPhase('cake');
+    // Start fading out flowers
+    setFlowersFading(true);
+    // After fade completes, switch to cake phase
+    setTimeout(() => {
+      setPhase('cake');
+    }, 1000);
   }, []);
 
   const handleCakeCut = useCallback(() => {
@@ -28,19 +34,40 @@ const Index = () => {
 
   return (
     <div className="relative min-h-screen w-full bg-background overflow-hidden">
-      {/* Flower Garden - always visible as base layer */}
-      {(phase === 'flowers' || phase === 'message' || phase === 'cake') && (
-        <FlowerGarden onComplete={handleFlowersComplete} />
+      {/* Flower Garden with fade out transition */}
+      {(phase === 'flowers' || phase === 'message' || (phase === 'cake' && flowersFading)) && (
+        <div 
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            flowersFading ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
+          <FlowerGarden onComplete={handleFlowersComplete} />
+        </div>
       )}
 
       {/* Birthday Message - overlays on flowers */}
       {phase === 'message' && (
-        <BirthdayMessage onComplete={handleMessageComplete} />
+        <div 
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            flowersFading ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
+          <BirthdayMessage onComplete={handleMessageComplete} />
+        </div>
       )}
 
-      {/* Cake Phase */}
+      {/* Cake Phase - Full black screen with fade in */}
       {phase === 'cake' && (
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div 
+          className={`absolute inset-0 bg-background flex items-center justify-center transition-opacity duration-1000 ${
+            flowersFading ? 'opacity-0' : 'opacity-100'
+          }`}
+          style={{ 
+            animation: 'fade-in 1s ease-out forwards',
+            animationDelay: '0.5s',
+            opacity: 0 
+          }}
+        >
           <ChocolateCake onCut={handleCakeCut} />
         </div>
       )}

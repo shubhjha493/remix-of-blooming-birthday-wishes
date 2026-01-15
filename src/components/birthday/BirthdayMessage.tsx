@@ -8,7 +8,7 @@ const BirthdayMessage = ({ onComplete }: BirthdayMessageProps) => {
   const [visibleLetters, setVisibleLetters] = useState(0);
   const [showWave, setShowWave] = useState(false);
   
-  const message = "Heppyyeee Birthday Poojaaaa 🌸🎂";
+  const message = "Heppyyeee Birthday Poojaaaa";
 
   useEffect(() => {
     // Animate letters one by one
